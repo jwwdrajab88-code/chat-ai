@@ -99,50 +99,13 @@ footer {
 <button onclick="sendMessage()">إرسال</button>
 
 <div class="users-list" id="users-list">
-<!-- أمثلة أسماء فتيات مع أعلام -->
 <div class="user-item"><img class="flag" src="https://flagcdn.com/sa.svg">سارة (السعودية)</div>
 <div class="user-item"><img class="flag" src="https://flagcdn.com/tr.svg">إيلا (تركيا)</div>
 <div class="user-item"><img class="flag" src="https://flagcdn.com/us.svg">ليلى (الولايات المتحدة)</div>
-<!-- أضف المزيد حسب الحاجة -->
+<!-- أضف المزيد لاحقاً -->
 </div>
 </div>
 
 <footer>
 من نحن | سياسة الخصوصية | جميع الحقوق محفوظة &copy; 2026
 </footer>
-
-<script>
-// هذا هو رابط Worker الخاص بك
-const WORKER_URL = "https://odd-bird-ed19.jwwdrajab88.workers.dev";
-
-// دالة إرسال الرسائل واستقبال الردود
-async function sendMessage() {
-    const input = document.getElementById("user-input");
-    const message = input.value.trim();
-    if (!message) return;
-
-    const chatBox = document.getElementById("chat-response");
-    chatBox.innerHTML += `<div>أنت: ${message}</div>`;
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    input.value = "";
-    chatBox.innerHTML += `<div>… يكتب</div>`;
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    try {
-        const res = await fetch(WORKER_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message })
-        });
-        const data = await res.json();
-        chatBox.innerHTML += `<div>AI: ${data.reply}</div>`;
-        chatBox.scrollTop = chatBox.scrollHeight;
-    } catch (e) {
-        chatBox.innerHTML += `<div>AI: حدث خطأ في الاتصال</div>`;
-    }
-}
-</script>
-
-</body>
-</html>
