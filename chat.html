@@ -6,7 +6,7 @@
 <title>الدردشة</title>
 <style>
 body {
-    margin: 0;
+    margin:0;
     font-family: Arial, sans-serif;
     background-color: black;
     color: white;
@@ -14,46 +14,52 @@ body {
 header {
     background-color: darkred;
     padding: 15px;
-    text-align: center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:bold;
     font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 .chat-container {
-    max-width: 600px;
-    margin: 20px auto;
-    background-color: #1a1a1a;
-    padding: 20px;
-    border-radius: 10px;
+    max-width:600px;
+    margin:20px auto;
+    background:#1a1a1a;
+    padding:20px;
+    border-radius:10px;
 }
 .chat-box {
-    width: 100%;
-    height: 300px;
-    background-color: black;
-    color: white;
-    padding: 10px;
-    overflow-y: scroll;
-    border: 1px solid #444;
+    width:100%;
+    height:300px;
+    background:black;
+    color:white;
+    padding:10px;
+    overflow-y:scroll;
+    border:1px solid #444;
 }
 input[type="text"] {
-    width: 80%;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 5px;
-    border: 1px solid #444;
-    background-color: #111;
-    color: white;
+    width:80%;
+    padding:10px;
+    margin-top:10px;
+    border-radius:5px;
+    border:1px solid #444;
+    background:#111;
+    color:white;
 }
 button {
-    padding: 10px 15px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: darkred;
-    color: white;
-    cursor: pointer;
+    padding:10px 15px;
+    margin-top:10px;
+    border:none;
+    border-radius:5px;
+    background:darkred;
+    color:white;
+    cursor:pointer;
+}
+footer {
+    text-align:center;
+    padding:10px;
+    font-size:14px;
+    color:#aaa;
+    margin-top:20px;
 }
 </style>
 </head>
@@ -70,13 +76,19 @@ button {
 <button onclick="sendMessage()">إرسال</button>
 </div>
 
+<footer>
+<a href="#">من نحن</a> | 
+<a href="#">سياسة الخصوصية</a> | 
+<a href="#">اتصل بنا</a>
+</footer>
+
 <script>
 // استلام اسم المستخدم من الرابط
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name") || "مجهول";
 document.getElementById("user-name").innerText = name;
 
-// رابط Worker
+// رابط Worker للذكاء الاصطناعي
 const WORKER_URL = "https://odd-bird-ed19.jwwdrajab88.workers.dev";
 
 // دالة إرسال الرسائل واستقبال الردود
@@ -100,9 +112,12 @@ async function sendMessage() {
             body: JSON.stringify({ message })
         });
         const data = await res.json();
+        // إزالة "… يكتب" قبل عرض الرد
+        chatBox.innerHTML = chatBox.innerHTML.replace("… يكتب", "");
         chatBox.innerHTML += `<div>AI: ${data.reply}</div>`;
         chatBox.scrollTop = chatBox.scrollHeight;
     } catch (e) {
+        chatBox.innerHTML = chatBox.innerHTML.replace("… يكتب", "");
         chatBox.innerHTML += `<div>AI: حدث خطأ في الاتصال</div>`;
     }
 }
