@@ -2,84 +2,138 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>AI Chat | دردشة ذكاء اصطناعي</title>
+<title>دردشة بالذكاء الاصطناعي</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="دردشة ذكاء اصطناعي مجانية بثلاث لغات: العربية، الإنجليزية، التركية.">
 
 <style>
-body{
-  font-family: Arial, sans-serif;
-  background:#f5f5f5;
-  text-align:center;
-  direction:rtl;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
 }
-.container{
-  background:#fff;
-  max-width:600px;
-  margin:20px auto;
-  padding:15px;
-  border-radius:8px;
+
+/* الشريط العلوي */
+.header {
+    background-color: #7a0000;
+    padding: 8px;
+    font-size: 12px;
+    text-align: center;
 }
-textarea{
-  width:95%;
-  height:80px;
+
+/* اختيار اللغة */
+.language-box {
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    background-color: #111;
+    border: 1px solid #7a0000;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
 }
-button{
-  padding:10px 20px;
-  margin-top:10px;
-  cursor:pointer;
+
+/* المحتوى */
+.container {
+    max-width: 800px;
+    margin: 80px auto 40px;
+    padding: 15px;
 }
-.ad{
-  margin-top:20px;
-  padding:10px;
-  border:1px dashed #999;
+
+/* صندوق الدردشة */
+.chat-box {
+    background-color: #111;
+    border: 1px solid #7a0000;
+    padding: 15px;
+    border-radius: 8px;
 }
-select{
-  padding:5px;
+
+.chat-box p {
+    color: #ff4444;
+}
+
+/* الإدخال */
+input, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: black;
+    color: white;
+    border: 1px solid #7a0000;
+}
+
+button {
+    background-color: #7a0000;
+    cursor: pointer;
+}
+
+/* إعلان */
+.ad-box {
+    margin: 30px 0;
+    padding: 15px;
+    border: 1px dashed #7a0000;
+    text-align: center;
+    color: #aaa;
 }
 </style>
 </head>
 
 <body>
 
+<div class="header">
+    دردشة بالذكاء الاصطناعي
+</div>
+
+<div class="language-box">
+    اختر اللغة<br>
+    العربية | English | Türkçe
+</div>
+
 <div class="container">
-<h2>🤖 دردشة ذكاء اصطناعي</h2>
-<p>اختر اللغة وابدأ المحادثة</p>
 
-<select id="language">
-  <option value="ar">العربية</option>
-  <option value="en">English</option>
-  <option value="tr">Türkçe</option>
-</select>
+    <div class="chat-box">
+        <p>🤖 قل مرحبًا… نحن موجودون</p>
+        <input type="text" placeholder="اكتب هنا...">
+        <button>إرسال</button>
+    </div>
 
-<div id="chat">
-  <p><strong>AI:</strong> مرحبًا 👋</p>
-</div>
+    <div class="ad-box">
+        مكان إعلان Google AdSense
+    </div>
 
-<textarea id="userInput" placeholder="اكتب هنا..."></textarea><br>
-<button onclick="sendMessage()">إرسال</button>
+    <h2>الدردشات المتاحة</h2>
+    <div id="girlsList"></div>
 
-<div class="ad">
-مكان إعلان Google AdSense
-</div>
 </div>
 
 <script>
-function sendMessage(){
-  let text = document.getElementById("userInput").value;
-  let lang = document.getElementById("language").value;
-  if(text==="") return;
+const countries = [
+  {flag:"🇹🇷", names:["Ayşe","Elif","Zeynep","Merve"]},
+  {flag:"🇸🇦", names:["سارة","ريم","نورة","ليان"]},
+  {flag:"🇪🇬", names:["مريم","آية","نور","هنا"]},
+  {flag:"🇺🇸", names:["Emily","Olivia","Sophia"]},
+  {flag:"🇫🇷", names:["Camille","Emma","Chloé"]},
+  {flag:"🇩🇪", names:["Anna","Lena","Sophie"]},
+  {flag:"🇧🇷", names:["Ana","Julia","Mariana"]},
+  {flag:"🇯🇵", names:["Aiko","Yuki","Hana"]},
+  {flag:"🇪🇸", names:["Lucia","Maria","Sofia"]}
+];
 
-  let reply="";
-  if(lang==="ar") reply="شكرًا لرسالتك، كيف أستطيع مساعدتك؟";
-  if(lang==="en") reply="Thanks for your message! How can I help you?";
-  if(lang==="tr") reply="Mesajın için teşekkürler! Nasıl yardımcı olabilirim?";
+const container = document.getElementById("girlsList");
 
-  document.getElementById("chat").innerHTML +=
-    "<p><strong>You:</strong> "+text+"</p>"+
-    "<p><strong>AI:</strong> "+reply+"</p>";
+for(let i = 0; i < 220; i++){
+  const c = countries[Math.floor(Math.random()*countries.length)];
+  const name = c.names[Math.floor(Math.random()*c.names.length)];
+  const age = Math.floor(Math.random()*28) + 18;
 
-  document.getElementById("userInput").value="";
+  const div = document.createElement("div");
+  div.style.borderBottom = "1px solid #7a0000";
+  div.style.padding = "8px";
+  div.innerHTML = `
+    ${c.flag} <strong>${name}</strong> – ${age} سنة
+    <br><small style="color:#aaa">شخصية ذكاء اصطناعي</small>
+  `;
+  container.appendChild(div);
 }
 </script>
 
