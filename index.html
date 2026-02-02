@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>دردشة بالذكاء الاصطناعي</title>
+<title>قائمة الدردشات</title>
 <style>
 body {
     margin: 0;
@@ -18,127 +18,70 @@ header {
     font-size: 24px;
     font-weight: bold;
 }
-.language-selector {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-}
-.chat-container {
-    max-width: 600px;
-    margin: 50px auto;
-    background-color: #1a1a1a;
-    padding: 20px;
-    border-radius: 10px;
-}
-.chat-box {
-    width: 100%;
-    height: 300px;
-    background-color: black;
-    color: white;
-    padding: 10px;
-    overflow-y: scroll;
-    border: 1px solid #444;
-}
-input[type="text"] {
-    width: 80%;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 5px;
-    border: 1px solid #444;
-    background-color: #111;
-    color: white;
-}
-button {
-    padding: 10px 15px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: darkred;
-    color: white;
-    cursor: pointer;
-}
 .users-list {
-    margin-top: 20px;
-    max-height: 200px;
-    overflow-y: scroll;
+    max-width: 600px;
+    margin: 20px auto;
 }
 .user-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    padding: 10px;
     margin-bottom: 5px;
+    background-color: #1a1a1a;
+    border-radius: 5px;
+    cursor: pointer;
 }
-.user-item img.flag {
-    width: 20px;
-    height: 15px;
-    margin-right: 10px;
+.user-item:hover {
+    background-color: #333;
 }
-footer {
-    margin-top: 30px;
-    font-size: 12px;
-    text-align: center;
-    color: #aaa;
+.active-dot {
+    width: 12px;
+    height: 12px;
+    background-color: green;
+    border-radius: 50%;
+    margin-left: 10px;
 }
 </style>
 </head>
 <body>
-
-<header>
-دردشة بالذكاء الاصطناعي
-<div class="language-selector">
-<select id="language">
-<option value="ar">العربية</option>
-<option value="en">English</option>
-<option value="tr">Türkçe</option>
-</select>
-</div>
-</header>
-
-<div class="chat-container">
-<div class="chat-box" id="chat-response"></div>
-<input type="text" id="user-input" placeholder="اكتب هنا...">
-<button onclick="sendMessage()">إرسال</button>
+<header>قائمة الدردشات</header>
 
 <div class="users-list" id="users-list">
-<div class="user-item"><img class="flag" src="https://flagcdn.com/sa.svg">سارة (السعودية)</div>
-<div class="user-item"><img class="flag" src="https://flagcdn.com/tr.svg">إيلا (تركيا)</div>
-<div class="user-item"><img class="flag" src="https://flagcdn.com/us.svg">ليلى (الولايات المتحدة)</div>
-<!-- أضف المزيد لاحقاً -->
-</div>
+<!-- سيتم إنشاء 200 اسم بالجاڤاسكريبت -->
 </div>
 
-<footer>
-من نحن | سياسة الخصوصية | جميع الحقوق محفوظة &copy; 2026
-</footer>
 <script>
-// ضع هنا رابط الـ Worker الخاص بك
-const WORKER_URL = "https://odd-bird-ed19.jwwdrajab88.workers.dev";
+const users = [
+"آية","سارة","ليلى","نور","هند","جنى","ريم","رنا","لمى","دانا",
+"ميساء","تاليا","هديل","جود","فرح","لارا","داليا","رنا","أميرة","سلمى",
+"رغد","ملك","ميسون","تهاني","ندى","ريم","عبير","جودي","رغد","شهد",
+"عبير","عالية","ميس","نورهان","لجين","ملك","مي","رنا","إيمان","رنا",
+"آية","سارة","ليلى","نور","هند","جنى","ريم","رنا","لمى","دانا",
+"ميساء","تاليا","هديل","جود","فرح","لارا","داليا","رنا","أميرة","سلمى",
+"رغد","ملك","ميسون","تهاني","ندى","ريم","عبير","جودي","رغد","شهد",
+"عبير","عالية","ميس","نورهان","لجين","ملك","مي","رنا","إيمان","رنا",
+"آية","سارة","ليلى","نور","هند","جنى","ريم","رنا","لمى","دانا",
+"ميساء","تاليا","هديل","جود","فرح","لارا","داليا","رنا","أميرة","سلمى",
+"رغد","ملك","ميسون","تهاني","ندى","ريم","عبير","جودي","رغد","شهد",
+"عبير","عالية","ميس","نورهان","لجين","ملك","مي","رنا","إيمان","رنا",
+"آية","سارة","ليلى","نور","هند","جنى","ريم","رنا","لمى","دانا",
+"ميساء","تاليا","هديل","جود","فرح","لارا","داليا","رنا","أميرة","سلمى",
+"رغد","ملك","ميسون","تهاني","ندى","ريم","عبير","جودي","رغد","شهد",
+"عبير","عالية","ميس","نورهان","لجين","ملك","مي","رنا","إيمان","رنا"
+]; // هذه عينة 200 اسم تقريبًا، يمكن تكرارها أو تعديلها
 
-// دالة إرسال الرسائل واستقبال الردود
-async function sendMessage() {
-    const input = document.getElementById("user-input");
-    const message = input.value.trim();
-    if (!message) return;
-
-    const chatBox = document.getElementById("chat-response");
-    chatBox.innerHTML += `<div>أنت: ${message}</div>`;
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    input.value = "";
-    chatBox.innerHTML += `<div>… يكتب</div>`;
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    try {
-        const res = await fetch(WORKER_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message })
-        });
-        const data = await res.json();
-        chatBox.innerHTML += `<div>AI: ${data.reply}</div>`;
-        chatBox.scrollTop = chatBox.scrollHeight;
-    } catch (e) {
-        chatBox.innerHTML += `<div>AI: حدث خطأ في الاتصال</div>`;
-    }
-    </script>
-    </body>
-    </html>
+const usersList = document.getElementById("users-list");
+users.forEach(name=>{
+    const div = document.createElement("div");
+    div.className = "user-item";
+    div.innerHTML = `<span>${name}</span><span class="active-dot"></span>`;
+    div.onclick = ()=>{ 
+        // عند الضغط على الاسم، انتقل إلى صفحة المحادثة
+        window.location.href = `chat.html?name=${encodeURIComponent(name)}`;
+    };
+    usersList.appendChild(div);
+});
+</script>
+</body>
+</html>
