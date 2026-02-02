@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدردشة</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: black;
+    color: white;
+}
+header {
+    background-color: darkred;
+    padding: 15px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chat-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+}
+.chat-box {
+    width: 100%;
+    height: 300px;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    overflow-y: scroll;
+    border: 1px solid #444;
+}
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #111;
+    color: white;
+}
+button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: darkred;
+    color: white;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<header id="chat-header">
+<span id="user-name"></span>
+<span style="color:lightgreen;font-size:14px;">نشط الآن</span>
+</header>
+
+<div class="chat-container">
+<div class="chat-box" id="chat-response"></div>
+<input type="text" id="user-input" placeholder="اكتب هنا...">
+<button onclick="sendMessage()">إرسال</button>
+</div>
+
+<script>
+// استلام اسم المستخدم من الرابط
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name") || "مجهول";
+document.getElementById("user-name").innerText = name;
+
+// رابط Worker
+const WORKER_URL = "https://odd-bird-ed19.jwwdrajab88.workers.dev";
+
+// دالة إرسال الرسائل واستقبال الردود
+async function sendMessage() {
+    const input = document.getElementById("user-input");
+    const message = input.value.trim();
+    if (!message) return;
+
+    const chatBox = document.getElementById("chat-response");
+    chatBox.innerHTML += `<div>أنت: ${message}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    input.value = "";
+    chatBox.innerHTML += `<div>… يكتب</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+        const res = await fetch(WORKER_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        chatBox.innerHTML += `<div>AI: ${data.reply}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (e) {
+        chatBox.innerHTML += `<div>AI: حدث خطأ في الاتصال</div>`;
+    }
+}
+</script>
+
+</body>
+</html>
