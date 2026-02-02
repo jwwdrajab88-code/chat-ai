@@ -1,13 +1,87 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>دردشة ذكاء اصطناعي</title>
+<meta charset="UTF-8">
+<title>AI Chat | دردشة ذكاء اصطناعي</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="دردشة ذكاء اصطناعي مجانية بثلاث لغات: العربية، الإنجليزية، التركية.">
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f5f5f5;
+  text-align:center;
+  direction:rtl;
+}
+.container{
+  background:#fff;
+  max-width:600px;
+  margin:20px auto;
+  padding:15px;
+  border-radius:8px;
+}
+textarea{
+  width:95%;
+  height:80px;
+}
+button{
+  padding:10px 20px;
+  margin-top:10px;
+  cursor:pointer;
+}
+.ad{
+  margin-top:20px;
+  padding:10px;
+  border:1px dashed #999;
+}
+select{
+  padding:5px;
+}
+</style>
 </head>
+
 <body>
 
-<h1>مرحبًا بك</h1>
-<p>هذا أول موقع دردشة ذكاء اصطناعي</p>
+<div class="container">
+<h2>🤖 دردشة ذكاء اصطناعي</h2>
+<p>اختر اللغة وابدأ المحادثة</p>
+
+<select id="language">
+  <option value="ar">العربية</option>
+  <option value="en">English</option>
+  <option value="tr">Türkçe</option>
+</select>
+
+<div id="chat">
+  <p><strong>AI:</strong> مرحبًا 👋</p>
+</div>
+
+<textarea id="userInput" placeholder="اكتب هنا..."></textarea><br>
+<button onclick="sendMessage()">إرسال</button>
+
+<div class="ad">
+مكان إعلان Google AdSense
+</div>
+</div>
+
+<script>
+function sendMessage(){
+  let text = document.getElementById("userInput").value;
+  let lang = document.getElementById("language").value;
+  if(text==="") return;
+
+  let reply="";
+  if(lang==="ar") reply="شكرًا لرسالتك، كيف أستطيع مساعدتك؟";
+  if(lang==="en") reply="Thanks for your message! How can I help you?";
+  if(lang==="tr") reply="Mesajın için teşekkürler! Nasıl yardımcı olabilirim?";
+
+  document.getElementById("chat").innerHTML +=
+    "<p><strong>You:</strong> "+text+"</p>"+
+    "<p><strong>AI:</strong> "+reply+"</p>";
+
+  document.getElementById("userInput").value="";
+}
+</script>
 
 </body>
 </html>
