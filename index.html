@@ -2,78 +2,90 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>دردشة بالذكاء الاصطناعي</title>
+<title>دردشة بواسطة الذكاء الاصطناعي</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #fff;
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#000;
+  color:#fff;
 }
 
 /* الشريط العلوي */
-.header {
-    background-color: #7a0000;
-    padding: 8px;
-    font-size: 12px;
-    text-align: center;
+.header{
+  background:#7a0000;
+  padding:10px;
+  text-align:center;
+  font-size:13px;
 }
 
-/* اختيار اللغة */
-.language-box {
-    position: fixed;
-    top: 60px;
-    right: 10px;
-    background-color: #111;
-    border: 1px solid #7a0000;
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 14px;
+/* اللغة */
+.language-box{
+  position:fixed;
+  top:60px;
+  right:10px;
+  background:#111;
+  border:1px solid #7a0000;
+  padding:8px;
+  font-size:13px;
+  border-radius:5px;
 }
 
 /* المحتوى */
-.container {
-    max-width: 800px;
-    margin: 80px auto 40px;
-    padding: 15px;
+.container{
+  max-width:900px;
+  margin:80px auto;
+  padding:10px;
 }
 
-/* صندوق الدردشة */
-.chat-box {
-    background-color: #111;
-    border: 1px solid #7a0000;
-    padding: 15px;
-    border-radius: 8px;
+/* الدردشة */
+.chat-box{
+  background:#111;
+  border:1px solid #7a0000;
+  padding:12px;
+  border-radius:6px;
 }
 
-.chat-box p {
-    color: #ff4444;
+#messages p{margin:6px 0}
+
+input,button,textarea{
+  width:100%;
+  margin-top:8px;
+  padding:8px;
+  background:#000;
+  color:#fff;
+  border:1px solid #7a0000;
 }
 
-/* الإدخال */
-input, button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    background-color: black;
-    color: white;
-    border: 1px solid #7a0000;
+button{
+  background:#7a0000;
+  cursor:pointer;
 }
 
-button {
-    background-color: #7a0000;
-    cursor: pointer;
+/* قائمة الفتيات */
+.girl{
+  border-bottom:1px solid #7a0000;
+  padding:7px;
+  cursor:pointer;
+}
+.girl:hover{
+  background:#1a0000;
 }
 
-/* إعلان */
-.ad-box {
-    margin: 30px 0;
-    padding: 15px;
-    border: 1px dashed #7a0000;
-    text-align: center;
-    color: #aaa;
+/* أقسام أسفل الصفحة */
+.section{
+  margin-top:30px;
+  padding:15px;
+  background:#0b0b0b;
+  border:1px solid #7a0000;
+  border-radius:6px;
+  font-size:14px;
+}
+.section h3{
+  color:#ff4444;
+  margin-top:0;
 }
 </style>
 </head>
@@ -81,59 +93,115 @@ button {
 <body>
 
 <div class="header">
-    دردشة بالذكاء الاصطناعي
+  دردشة بواسطة الذكاء الاصطناعي
 </div>
 
 <div class="language-box">
-    اختر اللغة<br>
-    العربية | English | Türkçe
+  العربية | English | Türkçe
 </div>
 
 <div class="container">
 
-    <div class="chat-box">
-        <p>🤖 قل مرحبًا… نحن موجودون</p>
-        <input type="text" placeholder="اكتب هنا...">
-        <button>إرسال</button>
-    </div>
+<!-- صندوق الدردشة -->
+<div class="chat-box">
+  <p id="status">🤖 قل مرحبًا… نحن موجودون</p>
+  <div id="messages"></div>
+  <input id="input" placeholder="اكتب هنا...">
+  <button onclick="send()">إرسال</button>
+</div>
 
-    <div class="ad-box">
-        مكان إعلان Google AdSense
-    </div>
+<!-- الدردشات -->
+<h3 style="margin-top:25px">الدردشات المتاحة</h3>
+<div id="girls"></div>
 
-    <h2>الدردشات المتاحة</h2>
-    <div id="girlsList"></div>
+<!-- اتصل بنا -->
+<div class="section">
+<h3>اتصل بنا</h3>
+<p>
+يمكنك التواصل معنا مباشرة عبر الرسائل من خلال هذه الصفحة.
+نحن نرحب بجميع الاستفسارات، الاقتراحات، أو الملاحظات المتعلقة بالموقع أو بالخدمة المقدمة.
+</p>
+<textarea placeholder="اكتب رسالتك هنا..."></textarea>
+<button>إرسال الرسالة</button>
+</div>
+
+<!-- من نحن -->
+<div class="section">
+<h3>من نحن</h3>
+<p>
+نحن منصة دردشة تفاعلية تعتمد على تقنيات الذكاء الاصطناعي الحديثة،
+تم إنشاؤها بهدف توفير تجربة محادثة سهلة، سريعة، ومتعددة اللغات للمستخدمين
+من مختلف أنحاء العالم.
+</p>
+<p>
+جميع الشخصيات المعروضة داخل الموقع هي شخصيات افتراضية يتم إنشاؤها
+وتشغيلها بواسطة أنظمة ذكاء اصطناعي، ولا تمثل أشخاصًا حقيقيين.
+</p>
+<p>
+نسعى إلى تقديم محتوى آمن، محترم، ومفيد، مع الالتزام الكامل بمعايير الجودة
+وسياسات الاستخدام العادل.
+</p>
+</div>
+
+<!-- سياسة الخصوصية -->
+<div class="section">
+<h3>سياسة الخصوصية</h3>
+<p>
+نحن نحترم خصوصية زوارنا بشكل كامل.
+لا نقوم بجمع أي معلومات شخصية حساسة مثل الأسماء الحقيقية أو العناوين
+أو بيانات الدفع.
+</p>
+<p>
+قد يتم تسجيل بعض البيانات التقنية غير الشخصية مثل نوع المتصفح أو
+مدة الجلسة وذلك لأغراض تحسين الأداء وتجربة المستخدم فقط.
+</p>
+<p>
+جميع المحادثات تتم بشكل آلي ولا يتم ربطها بهوية المستخدم.
+باستخدامك لهذا الموقع، فإنك توافق على هذه السياسة.
+</p>
+</div>
 
 </div>
 
 <script>
-const countries = [
-  {flag:"🇹🇷", names:["Ayşe","Elif","Zeynep","Merve"]},
-  {flag:"🇸🇦", names:["سارة","ريم","نورة","ليان"]},
-  {flag:"🇪🇬", names:["مريم","آية","نور","هنا"]},
-  {flag:"🇺🇸", names:["Emily","Olivia","Sophia"]},
-  {flag:"🇫🇷", names:["Camille","Emma","Chloé"]},
-  {flag:"🇩🇪", names:["Anna","Lena","Sophie"]},
-  {flag:"🇧🇷", names:["Ana","Julia","Mariana"]},
-  {flag:"🇯🇵", names:["Aiko","Yuki","Hana"]},
-  {flag:"🇪🇸", names:["Lucia","Maria","Sofia"]}
+let current="الذكاء الاصطناعي";
+
+function send(){
+  const i=document.getElementById("input");
+  const m=document.getElementById("messages");
+  if(i.value.trim()=="")return;
+  m.innerHTML+=`<p>🧑‍💻 أنت: ${i.value}</p>`;
+  m.innerHTML+=`<p>🤖 ${current}: مرحبًا 👋 كيف يمكنني مساعدتك؟</p>`;
+  i.value="";
+}
+
+const data=[
+{f:"🇸🇦",n:["سارة","ريم","ليان","نورة"]},
+{f:"🇹🇷",n:["Ayşe","Elif","Zeynep","Merve"]},
+{f:"🇺🇸",n:["Emily","Sophia","Olivia"]},
+{f:"🇫🇷",n:["Emma","Chloé","Camille"]},
+{f:"🇩🇪",n:["Anna","Lena","Sophie"]},
+{f:"🇯🇵",n:["Aiko","Yuki","Hana"]},
+{f:"🇪🇸",n:["Lucia","Maria","Sofia"]}
 ];
 
-const container = document.getElementById("girlsList");
+const g=document.getElementById("girls");
+const s=document.getElementById("status");
 
-for(let i = 0; i < 220; i++){
-  const c = countries[Math.floor(Math.random()*countries.length)];
-  const name = c.names[Math.floor(Math.random()*c.names.length)];
-  const age = Math.floor(Math.random()*28) + 18;
+for(let i=0;i<220;i++){
+  let c=data[Math.floor(Math.random()*data.length)];
+  let name=c.n[Math.floor(Math.random()*c.n.length)];
+  let age=Math.floor(Math.random()*28)+18;
 
-  const div = document.createElement("div");
-  div.style.borderBottom = "1px solid #7a0000";
-  div.style.padding = "8px";
-  div.innerHTML = `
-    ${c.flag} <strong>${name}</strong> – ${age} سنة
-    <br><small style="color:#aaa">شخصية ذكاء اصطناعي</small>
-  `;
-  container.appendChild(div);
+  let d=document.createElement("div");
+  d.className="girl";
+  d.innerHTML=`${c.f} <b>${name}</b> – ${age} سنة`;
+  d.onclick=()=>{
+    current=name;
+    s.innerHTML=`💬 الدردشة مع ${name}`;
+    document.getElementById("messages").innerHTML="";
+  };
+  g.appendChild(d);
 }
 </script>
 
