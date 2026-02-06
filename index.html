@@ -2,220 +2,188 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>دردشة العرب</title>
+<title>شات العرب – مجاني بالكامل</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #000;
+  background: #0e0e0e;
   color: #fff;
 }
 
 header {
-  background: darkred;
+  background: #111;
   padding: 15px;
   text-align: center;
+  border-bottom: 1px solid #222;
+}
+
+header h1 {
+  margin: 0;
   font-size: 22px;
-  font-weight: bold;
 }
 
-.main {
+header p {
+  margin: 5px 0 0;
+  font-size: 13px;
+  color: #aaa;
+}
+
+.container {
   display: flex;
-  height: calc(100vh - 160px);
+  height: calc(100vh - 120px);
 }
 
-.users {
-  width: 30%;
-  background: #111;
-  padding: 10px;
+.sidebar {
+  width: 280px;
+  background: #121212;
+  border-right: 1px solid #222;
   overflow-y: auto;
-  border-left: 1px solid #333;
 }
 
-.users h3 {
-  margin-top: 0;
-  text-align: center;
+.sidebar h2 {
+  font-size: 14px;
+  padding: 10px;
+  color: #aaa;
+  border-bottom: 1px solid #222;
 }
 
 .user {
   padding: 10px;
-  margin-bottom: 6px;
-  background: #1a1a1a;
   cursor: pointer;
-  border-radius: 6px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #1c1c1c;
+  transition: background 0.2s;
 }
 
 .user:hover {
-  background: #222;
+  background: #1a1a1a;
 }
 
 .status {
-  font-size: 12px;
-  color: lightgreen;
+  width: 8px;
+  height: 8px;
+  background: #3cff00;
+  border-radius: 50%;
+  margin-left: 8px;
 }
 
-.female { color: hotpink; }
-.male { color: deepskyblue; }
-
-.chat {
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  background: #000;
+.icon {
+  margin-left: 8px;
+  font-size: 18px;
 }
 
-.chat-header {
-  padding: 10px;
-  background: #111;
-  border-bottom: 1px solid #333;
+.female {
+  color: #ff7aa2;
 }
 
-.chat-box {
+.male {
+  color: #4da3ff;
+}
+
+.name {
+  font-size: 14px;
+}
+
+.main {
   flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-}
-
-.chat-box div {
-  margin-bottom: 8px;
-}
-
-.me { color: #9f9; }
-.ai { color: #f9c; }
-
-.chat-input {
   display: flex;
-  border-top: 1px solid #333;
-}
-
-.chat-input input {
-  flex: 1;
-  padding: 12px;
-  background: #000;
-  color: #fff;
-  border: none;
-}
-
-.chat-input button {
-  background: darkred;
-  color: #fff;
-  border: none;
-  padding: 12px 20px;
-  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 16px;
 }
 
 footer {
   background: #111;
   padding: 15px;
+  text-align: center;
   font-size: 13px;
-  line-height: 1.6;
+  border-top: 1px solid #222;
+}
+
+footer a {
+  color: #aaa;
+  text-decoration: none;
+  margin: 0 8px;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }
 </style>
 </head>
 
 <body>
 
-<header>دردشة العرب</header>
+<header>
+  <h1>شات العرب</h1>
+  <p>دردشة مجانية بالكامل</p>
+</header>
 
-<div class="main">
+<div class="container">
 
-  <div class="users">
-    <h3>الأشخاص النشطون</h3>
+  <div class="sidebar">
+    <h2>الدردشات النشطة</h2>
 
-    <div class="user" onclick="openChat('آية', 'female')">
-      <span class="female">👤 آية</span>
-      <span class="status">نشط الآن</span>
+    <!-- فتيات -->
+    <div class="user" onclick="openChat('سارة')">
+      <span class="status"></span>
+      <span class="icon female">👤</span>
+      <span class="name">سارة</span>
     </div>
 
-    <div class="user" onclick="openChat('سارة', 'female')">
-      <span class="female">👤 سارة</span>
-      <span class="status">نشط الآن</span>
+    <div class="user" onclick="openChat('لين')">
+      <span class="status"></span>
+      <span class="icon female">👤</span>
+      <span class="name">لين</span>
     </div>
 
-    <div class="user" onclick="openChat('ريم', 'female')">
-      <span class="female">👤 ريم</span>
-      <span class="status">نشط الآن</span>
+    <div class="user" onclick="openChat('نور')">
+      <span class="status"></span>
+      <span class="icon female">👤</span>
+      <span class="name">نور</span>
     </div>
 
-    <div class="user" onclick="openChat('محمد', 'male')">
-      <span class="male">👤 محمد</span>
-      <span class="status">نشط الآن</span>
+    <!-- شباب -->
+    <div class="user" onclick="openChat('أحمد')">
+      <span class="status"></span>
+      <span class="icon male">👤</span>
+      <span class="name">أحمد</span>
     </div>
 
-    <div class="user" onclick="openChat('أحمد', 'male')">
-      <span class="male">👤 أحمد</span>
-      <span class="status">نشط الآن</span>
+    <div class="user" onclick="openChat('محمد')">
+      <span class="status"></span>
+      <span class="icon male">👤</span>
+      <span class="name">محمد</span>
     </div>
 
-    <div class="user" onclick="openChat('عمر', 'male')">
-      <span class="male">👤 عمر</span>
-      <span class="status">نشط الآن</span>
+    <div class="user" onclick="openChat('خالد')">
+      <span class="status"></span>
+      <span class="icon male">👤</span>
+      <span class="name">خالد</span>
     </div>
+
   </div>
 
-  <div class="chat">
-    <div class="chat-header" id="chatName">
-      اختر شخصًا لبدء الدردشة
-    </div>
-
-    <div class="chat-box" id="chatBox"></div>
-
-    <div class="chat-input">
-      <input id="msg" placeholder="اكتب رسالتك...">
-      <button onclick="send()">إرسال</button>
-    </div>
+  <div class="main">
+    اختر اسمًا من الدردشات النشطة لبدء المحادثة
   </div>
 
 </div>
 
 <footer>
-<strong>من نحن:</strong><br>
-نحن منصة دردشة عربية للتسلية والتعارف وتبادل الحديث بشكل بسيط وآمن.<br><br>
-
-<strong>سياسة الخصوصية:</strong><br>
-لا نقوم بتخزين أي رسائل أو بيانات شخصية. جميع المحادثات تجريبية لأغراض الترفيه فقط.<br><br>
-
-<strong>اتصل بنا:</strong><br>
-contact@example.com
+  <a href="#">من نحن</a> |
+  <a href="#">سياسة الخصوصية</a> |
+  <a href="#">اتصل بنا</a>
 </footer>
 
 <script>
-let currentName = "";
-
 function openChat(name) {
-  currentName = name;
-  document.getElementById("chatName").innerHTML = name + " · <span style='color:lightgreen'>نشط الآن</span>";
-  document.getElementById("chatBox").innerHTML = "";
-}
-
-function send() {
-  const input = document.getElementById("msg");
-  const text = input.value.trim();
-  if (!text || !currentName) return;
-
-  const box = document.getElementById("chatBox");
-  box.innerHTML += "<div class='me'>أنت: " + text + "</div>";
-  input.value = "";
-
-  const replies = [
-    "كلامك جميل فعلًا 💖",
-    "أحب أسلوبك بالكلام 🌸",
-    "وجودك يخليني أبتسم 😊",
-    "تحب تحكي كثير؟ أنا أحب ذلك 💕",
-    "تشعرني بالراحة وأنا معك 💫",
-    "أنت شخص لطيف جدًا 🌷"
-  ];
-
-  setTimeout(() => {
-    const reply = replies[Math.floor(Math.random() * replies.length)];
-    box.innerHTML += "<div class='ai'>" + currentName + ": " + reply + "</div>";
-    box.scrollTop = box.scrollHeight;
-  }, 900);
+  window.location.href = "chat.html?name=" + encodeURIComponent(name);
 }
 </script>
 
