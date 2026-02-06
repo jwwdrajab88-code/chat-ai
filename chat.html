@@ -2,125 +2,177 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>الدردشة</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body {
-    margin:0;
-    font-family: Arial, sans-serif;
-    background-color: black;
-    color: white;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0b0b;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
+
 header {
-    background-color: darkred;
-    padding: 15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    font-weight:bold;
-    font-size: 20px;
+  background: #111;
+  padding: 12px;
+  border-bottom: 1px solid #222;
 }
-.chat-container {
-    max-width:600px;
-    margin:20px auto;
-    background:#1a1a1a;
-    padding:20px;
-    border-radius:10px;
+
+.name {
+  font-size: 16px;
+  font-weight: bold;
 }
-.chat-box {
-    width:100%;
-    height:300px;
-    background:black;
-    color:white;
-    padding:10px;
-    overflow-y:scroll;
-    border:1px solid #444;
+
+.status {
+  font-size: 12px;
+  color: #3cff00;
 }
-input[type="text"] {
-    width:80%;
-    padding:10px;
-    margin-top:10px;
-    border-radius:5px;
-    border:1px solid #444;
-    background:#111;
-    color:white;
+
+.chat {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background: #0e0e0e;
 }
-button {
-    padding:10px 15px;
-    margin-top:10px;
-    border:none;
-    border-radius:5px;
-    background:darkred;
-    color:white;
-    cursor:pointer;
+
+.msg {
+  max-width: 75%;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  font-size: 14px;
 }
-footer {
-    text-align:center;
-    padding:10px;
-    font-size:14px;
-    color:#aaa;
-    margin-top:20px;
+
+.me {
+  background: #005c4b;
+  margin-left: auto;
+  border-bottom-right-radius: 5px;
+}
+
+.me .read {
+  font-size: 11px;
+  color: #4fc3f7;
+  margin-top: 4px;
+  text-align: right;
+}
+
+.ai {
+  background: #1f1f1f;
+  margin-right: auto;
+  border-bottom-left-radius: 5px;
+}
+
+.input-area {
+  background: #111;
+  padding: 10px;
+  display: flex;
+  border-top: 1px solid #222;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background: #1c1c1c;
+  color: #fff;
+}
+
+.input-area button {
+  margin-right: 10px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 50%;
+  background: #00a884;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
 }
 </style>
 </head>
+
 <body>
 
-<header id="chat-header">
-<span id="user-name"></span>
-<span style="color:lightgreen;font-size:14px;">نشط الآن</span>
+<header>
+  <div class="name" id="chatName"></div>
+  <div class="status">● نشط الآن</div>
 </header>
 
-<div class="chat-container">
-<div class="chat-box" id="chat-response"></div>
-<input type="text" id="user-input" placeholder="اكتب هنا...">
-<button onclick="sendMessage()">إرسال</button>
+<div class="chat" id="chatBox"></div>
+
+<div class="input-area">
+  <input type="text" id="messageInput" placeholder="اكتب رسالة...">
+  <button onclick="sendMessage()">➤</button>
 </div>
 
-<footer>
-<a href="#">من نحن</a> | 
-<a href="#">سياسة الخصوصية</a> | 
-<a href="#">اتصل بنا</a>
-</footer>
-
 <script>
-// استلام اسم المستخدم من الرابط
+// اسم الشخص من الرابط
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name") || "مجهول";
-document.getElementById("user-name").innerText = name;
+document.getElementById("chatName").innerText = name;
 
-// رابط Worker للذكاء الاصطناعي
-const WORKER_URL = "https://odd-bird-ed19.jwwdrajab88.workers.dev";
+const chatBox = document.getElementById("chatBox");
+const input = document.getElementById("messageInput");
 
-// دالة إرسال الرسائل واستقبال الردود
-async function sendMessage() {
-    const input = document.getElementById("user-input");
-    const message = input.value.trim();
-    if (!message) return;
+// ردود طبيعية (ممكن تزيدها لاحقًا)
+const replies = [
+  "مرحبا 😊",
+  "أهلا وسهلا",
+  "كيفك؟",
+  "شو عم تعمل؟",
+  "ولا شي، قاعدة",
+  "شو عم تعملي؟",
+  "قاعد",
+  "تحب نحكي شوي؟",
+  "أكيد",
+  "خبرني عنك",
+  "شو اسمك؟",
+  "اسمي مريم",
+  "من وين انت؟",
+  "أنا من حلب",
+  "قديش عمرك؟",
+  "عمري 33",
+  "تحب السهر؟",
+  "أحيانًا",
+  "كلامك لطيف",
+  "أنا مستمعة 😊",
+  "لسا بدك تحكي؟",
+  "أكيد",
+  "الليل هدوء",
+  "حاسس حالي مرتاح بالحكي معك",
+  "وأنا كمان"
+];
 
-    const chatBox = document.getElementById("chat-response");
-    chatBox.innerHTML += `<div>أنت: ${message}</div>`;
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+
+  const me = document.createElement("div");
+  me.className = "msg me";
+  me.innerHTML = text + '<div class="read">✔✔</div>';
+  chatBox.appendChild(me);
+
+  input.value = "";
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  // رد بطيء (2–5 ثواني)
+  setTimeout(() => {
+    const ai = document.createElement("div");
+    ai.className = "msg ai";
+    ai.innerText = replies[Math.floor(Math.random() * replies.length)];
+    chatBox.appendChild(ai);
     chatBox.scrollTop = chatBox.scrollHeight;
-
-    input.value = "";
-    chatBox.innerHTML += `<div>… يكتب</div>`;
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    try {
-        const res = await fetch(WORKER_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message })
-        });
-        const data = await res.json();
-        // إزالة "… يكتب" قبل عرض الرد
-        chatBox.innerHTML = chatBox.innerHTML.replace("… يكتب", "");
-        chatBox.innerHTML += `<div>AI: ${data.reply}</div>`;
-        chatBox.scrollTop = chatBox.scrollHeight;
-    } catch (e) {
-        chatBox.innerHTML = chatBox.innerHTML.replace("… يكتب", "");
-        chatBox.innerHTML += `<div>AI: حدث خطأ في الاتصال</div>`;
-    }
+  }, Math.floor(Math.random() * 3000) + 2000);
 }
+
+input.addEventListener("keypress", function(e) {
+  if (e.key === "Enter") sendMessage();
+});
 </script>
 
 </body>
