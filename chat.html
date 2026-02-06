@@ -2,9 +2,8 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>شات العرب – مجاني</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>شات العرب</title>
 <style>
 body{
     margin:0;
@@ -12,50 +11,9 @@ body{
     background:#0f172a;
     color:#fff;
     display:flex;
-    height:100vh;
-    overflow:hidden;
-}
-
-/* القائمة الجانبية */
-#users{
-    width:260px;
-    background:#020617;
-    overflow-y:auto;
-    border-left:1px solid #1e293b;
-}
-
-#users h2{
-    text-align:center;
-    padding:15px;
-    margin:0;
-    background:#020617;
-    border-bottom:1px solid #1e293b;
-}
-
-.user{
-    padding:12px;
-    cursor:pointer;
-    border-bottom:1px solid #1e293b;
-    transition:0.3s;
-}
-
-.user:hover{
-    background:#1e293b;
-}
-
-.online{
-    color:#22c55e;
-    font-size:12px;
-}
-
-/* الشات */
-#chat{
-    flex:1;
-    display:flex;
     flex-direction:column;
-    transition: all 0.3s;
+    height:100vh;
 }
-
 #header{
     padding:15px;
     background:#020617;
@@ -64,13 +22,11 @@ body{
     font-size:20px;
     font-weight:bold;
 }
-
 #messages{
     flex:1;
     padding:15px;
     overflow-y:auto;
 }
-
 .msg{
     max-width:70%;
     padding:10px 14px;
@@ -78,27 +34,22 @@ body{
     border-radius:16px;
     line-height:1.6;
 }
-
 .user-msg{
     background:#2563eb;
     margin-left:auto;
     border-bottom-right-radius:4px;
 }
-
 .bot-msg{
     background:#1e293b;
     margin-right:auto;
     border-bottom-left-radius:4px;
 }
-
-/* الإدخال */
 #input{
     display:flex;
     padding:10px;
     background:#020617;
     border-top:1px solid #1e293b;
 }
-
 #input input{
     flex:1;
     padding:12px;
@@ -108,7 +59,6 @@ body{
     background:#0f172a;
     color:#fff;
 }
-
 #input button{
     margin-right:10px;
     padding:12px 18px;
@@ -119,7 +69,6 @@ body{
     font-weight:bold;
     cursor:pointer;
 }
-
 footer{
     text-align:center;
     padding:10px;
@@ -129,19 +78,9 @@ footer{
 }
 </style>
 </head>
-
 <body>
 
-<!-- المستخدمون -->
-<div id="users">
-<h2>الدردشات النشطة</h2>
-<div id="userList"></div>
-</div>
-
-<!-- الشات -->
-<div id="chat">
-<div id="header">شات العرب – مجاني بالكامل</div>
-
+<div id="header">شات العرب</div>
 <div id="messages"></div>
 
 <div id="input">
@@ -153,75 +92,31 @@ footer{
 من نحن | سياسة الخصوصية | اتصل بنا  
 <br>هذا الموقع للتجربة والترفيه فقط
 </footer>
-</div>
 
 <script>
-// أسماء عربية مختلطة 200 اسم
-const names = [
-"مريم","سارة","نور","لين","رنا","هدى","آية","تالا","ياسمين","فرح","ليلى","هند","جنى","سلمى","ندى","رهف",
-"أحمد","محمد","خالد","عمر","سامر","أنس","كريم","علاء","ياسر","علي","آدم","زياد","رامي","مالك","حاتم","سفيان",
-"جميلة","هالة","سحر","رانية","ليان","مي","جودي","داليا","لمياء","سوسن","غادة","سهى","رولا","دينا","سعاد",
-"آية","شهد","لمى","نورا","إيمان","هديل","صفاء","نورهان","جود","بسملة","ريما","رانيا","لانا","ياسمين","تالا",
-"مالك","رائد","ريان","حاتم","زياد","بدر","سليم","أوس","تيم","حسن","إياد","فادي","وليد","جواد","وسيم","نبيل",
-"رنا","ميلا","جنى","تاليا","يارا","جوري","لارا","ميساء","نور","آية","رهف","عالية","ليان","حلا","سما","دانا",
-"كريم","سامي","رامي","أحمد","يوسف","عمر","سعيد","خالد","زياد","مهند","أيمن","طارق","هاني","أنس","مالك","رائد",
-"هدى","سلمى","ليلى","جميلة","غادة","صفاء","دينا","ملاك","لينا","روان","نورهان","رانيا","تالا","هالة","بسمة",
-"محمد","خالد","عمر","سامي","أنس","يوسف","رامي","سليم","مالك","رائد","زياد","طارق","وسيم","نبيل","حاتم",
-"نور","ليان","رنا","جود","آية","شهد","جوري","ميلا","رهف","لارا","جنى","تاليا","ياسمين","تالا","فرح",
-"عمر","سامي","زيد","أحمد","كريم","هشام","معتز","سيف","مالك","رامي","بدر","حاتم","محمد","خالد","يوسف","أنس",
-"ليلى","مريم","نور","سارة","رنا","هدى","جنى","آية","ياسمين","فرح","مي","رولا","ليان","لارا","تالا","بسمة",
-"سلمى","نورهان","جود","رهف","هالة","ميلا","دينا","سما","تاليا","جوري","روان","رنا","هديل","ملاك","بسملة",
-"يوسف","عمر","خالد","زياد","رامي","مالك","أنس","سامي","سليم","جواد","وسيم","نبيل","طارق","هاني","أحمد"
-];
+// استلام الاسم من الرابط
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name") || "مجهول";
+document.getElementById("header").innerText = `دردشة مع ${name}`;
 
-// إنشاء قائمة المستخدمين
-const userList = document.getElementById("userList");
-names.forEach(n=>{
-    const d=document.createElement("div");
-    d.className="user";
-    d.innerHTML=`${n}<br><span class="online">● نشط الآن</span>`;
-    d.onclick = ()=>{
-        startChat(n);
-    };
-    userList.appendChild(d);
-});
-
-// الرسائل
 const messages = document.getElementById("messages");
-const chatDiv = document.getElementById("chat");
-const inputDiv = document.getElementById("input");
 
-// آلاف الردود جاهزة (لغة شارع)
-const questionsReplies = [
-    ["شو عم تعمل؟", "ولا شي، قاعدة شوي", "قاعد شوي وشايفك", "قاعد على الموبايل"],
-    ["كيفك اليوم؟", "تمام الحمد لله", "بخير وانت؟", "مش بطال اليوم"],
-    ["شو أخبارك؟", "والله عادي", "تمام ونت؟", "كل شي تمام"],
-    ["قديش عمرك؟", "33 سنة", "27 سنة", "مو مهم 😄"],
-    ["شو اسمك؟", "اسمي مريم", "أنا أحمد", "أحمد", "محمد"],
-    ["من وين انت؟", "من حلب", "من دمشق", "من الأردن", "من لبنان"],
-    ["تحب القهوة ولا الشاي؟", "قهوة أكتر", "الشاي أحيانًا", "يعني كلاهما 😅"],
-    ["شو بتشتغل؟", "طالبة جامعة", "موظف", "بدون شغل هلأ"],
-    ["تحب المزح؟", "أكيد", "بس شوي 😅", "بحب المزح أحيانًا"],
-    ["تحب السهر؟", "أحيانًا", "أيوه كتير", "مو كل يوم"]
+// ردود جاهزة بلغة شارع
+const replies=[
+"شو عم تعمل؟","ولا شي","قاعد","عم بمشي","شو اسمك؟","اسمي مريم","كيفك؟","تمام وانت؟","مرحبا","اهلا وسهلا",
+"شو أخبارك؟","تمام","وين ساكن؟","من حلب","هاي","هلا","😂","مو مشكلة","أكيد","حلو","عنجد؟"
 ];
-
-function getReply(msg){
-    msg = msg.toLowerCase();
-    for(const q of questionsReplies){
-        if(q.some(s=>msg.includes(s[0].toLowerCase()))){
-            return q[1 + Math.floor(Math.random()*(q.length-1))];
-        }
-    }
-    const general = ["😂 صح صح","عنجد؟","حلو","تمام","😊","هههه","أكيد","مو مشكلة"];
-    return general[Math.floor(Math.random()*general.length)];
-}
 
 function addMsg(text,type){
     const d=document.createElement("div");
-    d.className=`msg ${type}`;
+    d.className="msg "+type;
     d.innerText=text;
     messages.appendChild(d);
     messages.scrollTop=messages.scrollHeight;
+}
+
+function getReply(msg){
+    return replies[Math.floor(Math.random()*replies.length)];
 }
 
 function send(){
@@ -233,14 +128,7 @@ function send(){
     
     setTimeout(()=>{
         addMsg(getReply(userText),"bot-msg");
-    },1500 + Math.random()*2500);
-}
-
-// تصغير الشات عند فتح اسم
-function startChat(name){
-    chatDiv.style.flex="1";
-    chatDiv.scrollTop=chatDiv.scrollHeight;
-    addMsg(`أنت دخلت دردشة ${name}`,"bot-msg");
+    },1500 + Math.random()*1500);
 }
 </script>
 
