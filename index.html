@@ -2,83 +2,222 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
+<title>دردشة العرب</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قائمة الفتيات</title>
+
 <style>
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: black;
-    color: white;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: #fff;
 }
+
 header {
-    background-color: darkred;
-    padding: 15px;
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
+  background: darkred;
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
 }
-ul {
-    list-style: none;
-    padding: 0;
-    max-width: 600px;
-    margin: 20px auto;
+
+.main {
+  display: flex;
+  height: calc(100vh - 160px);
 }
-li {
-    background-color: #1a1a1a;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+.users {
+  width: 30%;
+  background: #111;
+  padding: 10px;
+  overflow-y: auto;
+  border-left: 1px solid #333;
 }
-li a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
+
+.users h3 {
+  margin-top: 0;
+  text-align: center;
 }
+
+.user {
+  padding: 10px;
+  margin-bottom: 6px;
+  background: #1a1a1a;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user:hover {
+  background: #222;
+}
+
 .status {
-    color: lightgreen;
-    font-size: 14px;
-    font-weight: bold;
+  font-size: 12px;
+  color: lightgreen;
 }
+
+.female { color: hotpink; }
+.male { color: deepskyblue; }
+
+.chat {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+.chat-header {
+  padding: 10px;
+  background: #111;
+  border-bottom: 1px solid #333;
+}
+
+.chat-box {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.chat-box div {
+  margin-bottom: 8px;
+}
+
+.me { color: #9f9; }
+.ai { color: #f9c; }
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #333;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 12px;
+  background: #000;
+  color: #fff;
+  border: none;
+}
+
+.chat-input button {
+  background: darkred;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+}
+
 footer {
-    text-align: center;
-    padding: 15px;
-    background-color: #111;
-    font-size: 14px;
-    margin-top: 20px;
-}
-footer a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
-}
-footer a:hover {
-    text-decoration: underline;
+  background: #111;
+  padding: 15px;
+  font-size: 13px;
+  line-height: 1.6;
 }
 </style>
 </head>
+
 <body>
 
-<header>قائمة الفتيات</header>
+<header>دردشة العرب</header>
 
-<ul>
-    <li><a href="chat.html?name=آية">آية</a> <span class="status">● نشط الآن</span></li>
-    <li><a href="chat.html?name=ليلى">ليلى</a> <span class="status">● نشط الآن</span></li>
-    <li><a href="chat.html?name=سارة">سارة</a> <span class="status">● نشط الآن</span></li>
-    <li><a href="chat.html?name=مريم">مريم</a> <span class="status">● نشط الآن</span></li>
-    <li><a href="chat.html?name=نور">نور</a> <span class="status">● نشط الآن</span></li>
-    <li><a href="chat.html?name=جميلة">جميلة</a> <span class="status">● نشط الآن</span></li>
-    <li><a href="chat.html?name=رنا">رنا</a> <span class="status">● نشط الآن</span></li>
-</ul>
+<div class="main">
+
+  <div class="users">
+    <h3>الأشخاص النشطون</h3>
+
+    <div class="user" onclick="openChat('آية', 'female')">
+      <span class="female">👤 آية</span>
+      <span class="status">نشط الآن</span>
+    </div>
+
+    <div class="user" onclick="openChat('سارة', 'female')">
+      <span class="female">👤 سارة</span>
+      <span class="status">نشط الآن</span>
+    </div>
+
+    <div class="user" onclick="openChat('ريم', 'female')">
+      <span class="female">👤 ريم</span>
+      <span class="status">نشط الآن</span>
+    </div>
+
+    <div class="user" onclick="openChat('محمد', 'male')">
+      <span class="male">👤 محمد</span>
+      <span class="status">نشط الآن</span>
+    </div>
+
+    <div class="user" onclick="openChat('أحمد', 'male')">
+      <span class="male">👤 أحمد</span>
+      <span class="status">نشط الآن</span>
+    </div>
+
+    <div class="user" onclick="openChat('عمر', 'male')">
+      <span class="male">👤 عمر</span>
+      <span class="status">نشط الآن</span>
+    </div>
+  </div>
+
+  <div class="chat">
+    <div class="chat-header" id="chatName">
+      اختر شخصًا لبدء الدردشة
+    </div>
+
+    <div class="chat-box" id="chatBox"></div>
+
+    <div class="chat-input">
+      <input id="msg" placeholder="اكتب رسالتك...">
+      <button onclick="send()">إرسال</button>
+    </div>
+  </div>
+
+</div>
 
 <footer>
-    <a href="#">من نحن</a> | 
-    <a href="#">سياسة الخصوصية</a> | 
-    <a href="#">اتصل بنا</a>
+<strong>من نحن:</strong><br>
+نحن منصة دردشة عربية للتسلية والتعارف وتبادل الحديث بشكل بسيط وآمن.<br><br>
+
+<strong>سياسة الخصوصية:</strong><br>
+لا نقوم بتخزين أي رسائل أو بيانات شخصية. جميع المحادثات تجريبية لأغراض الترفيه فقط.<br><br>
+
+<strong>اتصل بنا:</strong><br>
+contact@example.com
 </footer>
+
+<script>
+let currentName = "";
+
+function openChat(name) {
+  currentName = name;
+  document.getElementById("chatName").innerHTML = name + " · <span style='color:lightgreen'>نشط الآن</span>";
+  document.getElementById("chatBox").innerHTML = "";
+}
+
+function send() {
+  const input = document.getElementById("msg");
+  const text = input.value.trim();
+  if (!text || !currentName) return;
+
+  const box = document.getElementById("chatBox");
+  box.innerHTML += "<div class='me'>أنت: " + text + "</div>";
+  input.value = "";
+
+  const replies = [
+    "كلامك جميل فعلًا 💖",
+    "أحب أسلوبك بالكلام 🌸",
+    "وجودك يخليني أبتسم 😊",
+    "تحب تحكي كثير؟ أنا أحب ذلك 💕",
+    "تشعرني بالراحة وأنا معك 💫",
+    "أنت شخص لطيف جدًا 🌷"
+  ];
+
+  setTimeout(() => {
+    const reply = replies[Math.floor(Math.random() * replies.length)];
+    box.innerHTML += "<div class='ai'>" + currentName + ": " + reply + "</div>";
+    box.scrollTop = box.scrollHeight;
+  }, 900);
+}
+</script>
 
 </body>
 </html>
