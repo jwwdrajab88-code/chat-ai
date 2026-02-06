@@ -2,177 +2,231 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>الدردشة</title>
+<title>شات العرب – مجاني</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0b0b0b;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    color:#fff;
+    display:flex;
+    height:100vh;
 }
 
-header {
-  background: #111;
-  padding: 12px;
-  border-bottom: 1px solid #222;
+/* القائمة الجانبية */
+#users{
+    width:260px;
+    background:#020617;
+    overflow-y:auto;
+    border-left:1px solid #1e293b;
 }
 
-.name {
-  font-size: 16px;
-  font-weight: bold;
+#users h2{
+    text-align:center;
+    padding:15px;
+    margin:0;
+    background:#020617;
+    border-bottom:1px solid #1e293b;
 }
 
-.status {
-  font-size: 12px;
-  color: #3cff00;
+.user{
+    padding:12px;
+    cursor:pointer;
+    border-bottom:1px solid #1e293b;
+    transition:0.3s;
 }
 
-.chat {
-  flex: 1;
-  padding: 15px;
-  overflow-y: auto;
-  background: #0e0e0e;
+.user:hover{
+    background:#1e293b;
 }
 
-.msg {
-  max-width: 75%;
-  padding: 10px 14px;
-  margin-bottom: 10px;
-  border-radius: 15px;
-  font-size: 14px;
+.online{
+    color:#22c55e;
+    font-size:12px;
 }
 
-.me {
-  background: #005c4b;
-  margin-left: auto;
-  border-bottom-right-radius: 5px;
+/* الشات */
+#chat{
+    flex:1;
+    display:flex;
+    flex-direction:column;
 }
 
-.me .read {
-  font-size: 11px;
-  color: #4fc3f7;
-  margin-top: 4px;
-  text-align: right;
+#header{
+    padding:15px;
+    background:#020617;
+    border-bottom:1px solid #1e293b;
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
 }
 
-.ai {
-  background: #1f1f1f;
-  margin-right: auto;
-  border-bottom-left-radius: 5px;
+#messages{
+    flex:1;
+    padding:15px;
+    overflow-y:auto;
 }
 
-.input-area {
-  background: #111;
-  padding: 10px;
-  display: flex;
-  border-top: 1px solid #222;
+.msg{
+    max-width:70%;
+    padding:10px 14px;
+    margin-bottom:12px;
+    border-radius:16px;
+    line-height:1.6;
 }
 
-.input-area input {
-  flex: 1;
-  padding: 10px;
-  border-radius: 20px;
-  border: none;
-  outline: none;
-  background: #1c1c1c;
-  color: #fff;
+.user-msg{
+    background:#2563eb;
+    margin-left:auto;
+    border-bottom-right-radius:4px;
 }
 
-.input-area button {
-  margin-right: 10px;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 50%;
-  background: #00a884;
-  color: #fff;
-  cursor: pointer;
-  font-size: 16px;
+.bot-msg{
+    background:#1e293b;
+    margin-right:auto;
+    border-bottom-left-radius:4px;
+}
+
+/* الإدخال */
+#input{
+    display:flex;
+    padding:10px;
+    background:#020617;
+    border-top:1px solid #1e293b;
+}
+
+#input input{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    background:#0f172a;
+    color:#fff;
+}
+
+#input button{
+    margin-right:10px;
+    padding:12px 18px;
+    border:none;
+    border-radius:10px;
+    background:#22c55e;
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+footer{
+    text-align:center;
+    padding:10px;
+    font-size:12px;
+    background:#020617;
+    border-top:1px solid #1e293b;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="name" id="chatName"></div>
-  <div class="status">● نشط الآن</div>
-</header>
+<!-- المستخدمون -->
+<div id="users">
+<h2>الدردشات النشطة</h2>
+<div id="userList"></div>
+</div>
 
-<div class="chat" id="chatBox"></div>
+<!-- الشات -->
+<div id="chat">
+<div id="header">شات العرب – مجاني بالكامل</div>
 
-<div class="input-area">
-  <input type="text" id="messageInput" placeholder="اكتب رسالة...">
-  <button onclick="sendMessage()">➤</button>
+<div id="messages"></div>
+
+<div id="input">
+<input id="text" placeholder="اكتب رسالتك..." />
+<button onclick="send()">إرسال</button>
+</div>
+
+<footer>
+من نحن | سياسة الخصوصية | اتصل بنا  
+<br>هذا الموقع للتجربة والترفيه فقط
+</footer>
 </div>
 
 <script>
-// اسم الشخص من الرابط
-const params = new URLSearchParams(window.location.search);
-const name = params.get("name") || "مجهول";
-document.getElementById("chatName").innerText = name;
-
-const chatBox = document.getElementById("chatBox");
-const input = document.getElementById("messageInput");
-
-// ردود طبيعية (ممكن تزيدها لاحقًا)
-const replies = [
-  "مرحبا 😊",
-  "أهلا وسهلا",
-  "كيفك؟",
-  "شو عم تعمل؟",
-  "ولا شي، قاعدة",
-  "شو عم تعملي؟",
-  "قاعد",
-  "تحب نحكي شوي؟",
-  "أكيد",
-  "خبرني عنك",
-  "شو اسمك؟",
-  "اسمي مريم",
-  "من وين انت؟",
-  "أنا من حلب",
-  "قديش عمرك؟",
-  "عمري 33",
-  "تحب السهر؟",
-  "أحيانًا",
-  "كلامك لطيف",
-  "أنا مستمعة 😊",
-  "لسا بدك تحكي؟",
-  "أكيد",
-  "الليل هدوء",
-  "حاسس حالي مرتاح بالحكي معك",
-  "وأنا كمان"
+// أسماء
+const names = [
+"مريم","سارة","نور","لين","رنا","هدى","آية","تالا","ياسمين",
+"أحمد","محمد","خالد","عمر","سامر","أنس","كريم","علاء","ياسر"
 ];
 
-function sendMessage() {
-  const text = input.value.trim();
-  if (!text) return;
+// ردود طبيعية
+const greetings = [
+"مرحبا","أهلا","أهلا وسهلا","مساء الخير","صباح الخير"
+];
 
-  const me = document.createElement("div");
-  me.className = "msg me";
-  me.innerHTML = text + '<div class="read">✔✔</div>';
-  chatBox.appendChild(me);
+const questions = [
+"شو عم تعمل؟","كيفك اليوم؟","شو أخبارك؟","مللان؟",
+"من وين انت؟","قديش عمرك؟","شو اسمك؟"
+];
 
-  input.value = "";
-  chatBox.scrollTop = chatBox.scrollHeight;
+const answers = [
+"ولا شي","قاعد شوي","تمام الحمد لله","مبسوط",
+"تعبان شوي","مشغول","فاضي هلأ"
+];
 
-  // رد بطيء (2–5 ثواني)
-  setTimeout(() => {
-    const ai = document.createElement("div");
-    ai.className = "msg ai";
-    ai.innerText = replies[Math.floor(Math.random() * replies.length)];
-    chatBox.appendChild(ai);
-    chatBox.scrollTop = chatBox.scrollHeight;
-  }, Math.floor(Math.random() * 3000) + 2000);
+const comments = [
+"هههه","😊","عنجد","لطيف الحكي معك",
+"مرتاح","تمام","مزبوط"
+];
+
+function rand(arr){
+    return arr[Math.floor(Math.random()*arr.length)];
 }
 
-input.addEventListener("keypress", function(e) {
-  if (e.key === "Enter") sendMessage();
+// توليد المستخدمين
+const userList = document.getElementById("userList");
+names.forEach(n=>{
+    const d=document.createElement("div");
+    d.className="user";
+    d.innerHTML=`${n}<br><span class="online">● نشط الآن</span>`;
+    userList.appendChild(d);
 });
+
+// الرسائل
+const messages = document.getElementById("messages");
+
+function addMsg(text,type){
+    const d=document.createElement("div");
+    d.className=`msg ${type}`;
+    d.innerText=text;
+    messages.appendChild(d);
+    messages.scrollTop=messages.scrollHeight;
+}
+
+// إرسال
+function send(){
+    const input=document.getElementById("text");
+    if(input.value==="") return;
+    addMsg(input.value,"user-msg");
+    input.value="";
+
+    setTimeout(()=>{
+        botReply();
+    },1500 + Math.random()*2000);
+}
+
+// رد البوت
+function botReply(){
+    const type=Math.floor(Math.random()*4);
+    let reply="";
+    if(type===0) reply=rand(greetings);
+    if(type===1) reply=rand(questions);
+    if(type===2) reply=rand(answers);
+    if(type===3) reply=rand(comments);
+
+    addMsg(reply,"bot-msg");
+}
 </script>
 
 </body>
