@@ -13,6 +13,7 @@ body{
     color:#fff;
     display:flex;
     height:100vh;
+    overflow:hidden;
 }
 
 /* القائمة الجانبية */
@@ -52,6 +53,7 @@ body{
     flex:1;
     display:flex;
     flex-direction:column;
+    transition: all 0.3s;
 }
 
 #header{
@@ -111,7 +113,7 @@ body{
     margin-right:10px;
     padding:12px 18px;
     border:none;
-    border-radius:10px;
+    border-radius:50%;
     background:#22c55e;
     color:#000;
     font-weight:bold;
@@ -154,47 +156,55 @@ footer{
 </div>
 
 <script>
-// أسماء
+// أسماء وهمية
 const names = [
 "مريم","سارة","نور","لين","رنا","هدى","آية","تالا","ياسمين",
 "أحمد","محمد","خالد","عمر","سامر","أنس","كريم","علاء","ياسر"
 ];
 
-// ردود طبيعية
-const greetings = [
-"مرحبا","أهلا","أهلا وسهلا","مساء الخير","صباح الخير"
-];
-
-const questions = [
-"شو عم تعمل؟","كيفك اليوم؟","شو أخبارك؟","مللان؟",
-"من وين انت؟","قديش عمرك؟","شو اسمك؟"
-];
-
-const answers = [
-"ولا شي","قاعد شوي","تمام الحمد لله","مبسوط",
-"تعبان شوي","مشغول","فاضي هلأ"
-];
-
-const comments = [
-"هههه","😊","عنجد","لطيف الحكي معك",
-"مرتاح","تمام","مزبوط"
-];
-
-function rand(arr){
-    return arr[Math.floor(Math.random()*arr.length)];
-}
-
-// توليد المستخدمين
+// المستخدمين
 const userList = document.getElementById("userList");
 names.forEach(n=>{
     const d=document.createElement("div");
     d.className="user";
     d.innerHTML=`${n}<br><span class="online">● نشط الآن</span>`;
+    d.onclick = ()=>{
+        startChat(n);
+    };
     userList.appendChild(d);
 });
 
 // الرسائل
 const messages = document.getElementById("messages");
+const chatDiv = document.getElementById("chat");
+const inputDiv = document.getElementById("input");
+
+// آلاف الردود جاهزة (مزيج لغة شارع + منطقية)
+const questionsReplies = [
+    ["شو عم تعمل؟", "ولا شي، قاعدة شوي", "قاعد شوي وشايفك", "قاعد على الموبايل"],
+    ["كيفك اليوم؟", "تمام الحمد لله", "بخير وانت؟", "مش بطال اليوم"],
+    ["شو أخبارك؟", "والله عادي", "تمام ونت؟", "كل شي تمام"],
+    ["قديش عمرك؟", "33 سنة", "27 سنة", "مو مهم 😄"],
+    ["شو اسمك؟", "اسمي مريم", "أنا أحمد", "أحمد", "محمد"],
+    ["من وين انت؟", "من حلب", "من دمشق", "من الأردن", "من لبنان"],
+    ["تحب القهوة ولا الشاي؟", "قهوة أكتر", "الشاي أحيانًا", "يعني كلاهما 😅"],
+    ["شو بتشتغل؟", "طالبة جامعة", "موظف", "بدون شغل هلأ"],
+    ["تحب المزح؟", "أكيد", "بس شوي 😅", "بحب المزح أحيانًا"],
+    ["تحب السهر؟", "أحيانًا", "أيوه كتير", "مو كل يوم"]
+];
+
+// وظيفة اختيار الرد
+function getReply(msg){
+    msg = msg.toLowerCase();
+    for(const q of questionsReplies){
+        if(q.some(s=>msg.includes(s[0].toLowerCase()))){
+            return q[1 + Math.floor(Math.random()*(q.length-1))];
+        }
+    }
+    // رد عام
+    const general = ["😂 صح صح","عنجد؟","حلو","تمام","😊","هههه","أكيد","مو مشكلة"];
+    return general[Math.floor(Math.random()*general.length)];
+}
 
 function addMsg(text,type){
     const d=document.createElement("div");
@@ -204,28 +214,24 @@ function addMsg(text,type){
     messages.scrollTop=messages.scrollHeight;
 }
 
-// إرسال
 function send(){
     const input=document.getElementById("text");
     if(input.value==="") return;
     addMsg(input.value,"user-msg");
+    const userText=input.value;
     input.value="";
-
+    
+    // تأخير طبيعي
     setTimeout(()=>{
-        botReply();
-    },1500 + Math.random()*2000);
+        addMsg(getReply(userText),"bot-msg");
+    },1500 + Math.random()*2500);
 }
 
-// رد البوت
-function botReply(){
-    const type=Math.floor(Math.random()*4);
-    let reply="";
-    if(type===0) reply=rand(greetings);
-    if(type===1) reply=rand(questions);
-    if(type===2) reply=rand(answers);
-    if(type===3) reply=rand(comments);
-
-    addMsg(reply,"bot-msg");
+// تصغير الشات عند فتح اسم
+function startChat(name){
+    chatDiv.style.flex="1";
+    chatDiv.scrollTop=chatDiv.scrollHeight;
+    addMsg(`أنت دخلت دردشة ${name}`,"bot-msg");
 }
 </script>
 
