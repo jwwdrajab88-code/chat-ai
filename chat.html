@@ -92,6 +92,11 @@ footer{
     border-top:1px solid #1e293b;
 }
 </style>
+
+<!-- كود AdSense في الـ head -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3959738764206259"
+     crossorigin="anonymous"></script>
+
 </head>
 <body>
 
@@ -116,7 +121,7 @@ footer{
 // استقبال الاسم من الرابط
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name") || "مجهول";
-document.getElementById("chatName").innerText = name;
+document.getElementById("chatName").innerText = `دردشة مع ${name}`;
 
 // الرسائل
 const messages = document.getElementById("messages");
@@ -125,7 +130,7 @@ const messages = document.getElementById("messages");
 const replies = [
 "شو عم تعمل؟","ولا شي","قاعد","عم بمشي","شو اسمك؟","اسمي مريم","كيفك؟","تمام وانت؟",
 "مرحبا","اهلا وسهلا","شو أخبارك؟","تمام","وين ساكن؟","من حلب","هاي","هلا",
-"😂","مو مشكلة","أكيد","حلو","عنجد؟","تمام","مش بطال اليوم"
+"😂","مو مشكلة","أكيد","حلو","عنجد؟","تمام","مش بطال اليوم","شو رأيك؟","تمام والله","صحيح؟"
 ];
 
 function addMsg(text,type){
@@ -162,6 +167,17 @@ function send(){
     },1500 + Math.random()*1500);
 }
 </script>
+
+<!-- يمكن وضع كود AdSense إضافي للوحدات اليدوية قبل نهاية body -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3959738764206259"
+     data-ad-slot="XXXXXXX"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
 
 </body>
 </html>
