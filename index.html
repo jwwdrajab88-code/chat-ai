@@ -2,189 +2,99 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>شات العرب – مجاني بالكامل</title>
+<title>شات العرب – مجاني</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0e0e0e;
-  color: #fff;
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    color:#fff;
 }
-
-header {
-  background: #111;
-  padding: 15px;
-  text-align: center;
-  border-bottom: 1px solid #222;
+h1{
+    text-align:center;
+    padding:15px;
+    background:#020617;
+    margin:0;
+    font-size:22px;
 }
-
-header h1 {
-  margin: 0;
-  font-size: 22px;
+#users{
+    max-width:400px;
+    margin:10px auto;
+    background:#020617;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid #1e293b;
 }
-
-header p {
-  margin: 5px 0 0;
-  font-size: 13px;
-  color: #aaa;
+.user{
+    padding:12px;
+    cursor:pointer;
+    border-bottom:1px solid #1e293b;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:0.3s;
 }
-
-.container {
-  display: flex;
-  height: calc(100vh - 120px);
+.user:hover{
+    background:#1e293b;
 }
-
-.sidebar {
-  width: 280px;
-  background: #121212;
-  border-right: 1px solid #222;
-  overflow-y: auto;
+.user span.icon{
+    font-size:18px;
 }
-
-.sidebar h2 {
-  font-size: 14px;
-  padding: 10px;
-  color: #aaa;
-  border-bottom: 1px solid #222;
+.online{
+    color:#22c55e;
+    font-size:12px;
 }
-
-.user {
-  padding: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #1c1c1c;
-  transition: background 0.2s;
-}
-
-.user:hover {
-  background: #1a1a1a;
-}
-
-.status {
-  width: 8px;
-  height: 8px;
-  background: #3cff00;
-  border-radius: 50%;
-  margin-left: 8px;
-}
-
-.icon {
-  margin-left: 8px;
-  font-size: 18px;
-}
-
-.female {
-  color: #ff7aa2;
-}
-
-.male {
-  color: #4da3ff;
-}
-
-.name {
-  font-size: 14px;
-}
-
-.main {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-  font-size: 16px;
-}
-
-footer {
-  background: #111;
-  padding: 15px;
-  text-align: center;
-  font-size: 13px;
-  border-top: 1px solid #222;
-}
-
-footer a {
-  color: #aaa;
-  text-decoration: none;
-  margin: 0 8px;
-}
-
-footer a:hover {
-  text-decoration: underline;
+footer{
+    text-align:center;
+    padding:10px;
+    font-size:12px;
+    margin-top:20px;
+    color:#aaa;
 }
 </style>
 </head>
-
 <body>
 
-<header>
-  <h1>شات العرب</h1>
-  <p>دردشة مجانية بالكامل</p>
-</header>
+<h1>شات العرب – مجاني بالكامل</h1>
 
-<div class="container">
-
-  <div class="sidebar">
-    <h2>الدردشات النشطة</h2>
-
-    <!-- فتيات -->
-    <div class="user" onclick="openChat('سارة')">
-      <span class="status"></span>
-      <span class="icon female">👤</span>
-      <span class="name">سارة</span>
-    </div>
-
-    <div class="user" onclick="openChat('لين')">
-      <span class="status"></span>
-      <span class="icon female">👤</span>
-      <span class="name">لين</span>
-    </div>
-
-    <div class="user" onclick="openChat('نور')">
-      <span class="status"></span>
-      <span class="icon female">👤</span>
-      <span class="name">نور</span>
-    </div>
-
-    <!-- شباب -->
-    <div class="user" onclick="openChat('أحمد')">
-      <span class="status"></span>
-      <span class="icon male">👤</span>
-      <span class="name">أحمد</span>
-    </div>
-
-    <div class="user" onclick="openChat('محمد')">
-      <span class="status"></span>
-      <span class="icon male">👤</span>
-      <span class="name">محمد</span>
-    </div>
-
-    <div class="user" onclick="openChat('خالد')">
-      <span class="status"></span>
-      <span class="icon male">👤</span>
-      <span class="name">خالد</span>
-    </div>
-
-  </div>
-
-  <div class="main">
-    اختر اسمًا من الدردشات النشطة لبدء المحادثة
-  </div>
-
-</div>
+<div id="users"></div>
 
 <footer>
-  <a href="#">من نحن</a> |
-  <a href="#">سياسة الخصوصية</a> |
-  <a href="#">اتصل بنا</a>
+من نحن | سياسة الخصوصية | اتصل بنا  
+<br>هذا الموقع للتجربة والترفيه فقط
 </footer>
 
 <script>
-function openChat(name) {
-  window.location.href = "chat.html?name=" + encodeURIComponent(name);
-}
+// أسماء عربية مختلطة 200 اسم
+const names = [
+"مريم","سارة","نور","لين","رنا","هدى","آية","تالا","ياسمين","فرح","ليلى","هند","جنى","سلمى","ندى","رهف",
+"أحمد","محمد","خالد","عمر","سامر","أنس","كريم","علاء","ياسر","علي","آدم","زياد","رامي","مالك","حاتم","سفيان",
+"جميلة","هالة","سحر","رانية","ليان","مي","جودي","داليا","لمياء","سوسن","غادة","سهى","رولا","دينا","سعاد",
+"آية","شهد","لمى","نورا","إيمان","هديل","صفاء","نورهان","جود","بسملة","ريما","رانيا","لانا","ياسمين","تالا",
+"مالك","رائد","ريان","حاتم","زياد","بدر","سليم","أوس","تيم","حسن","إياد","فادي","وليد","جواد","وسيم","نبيل",
+"رنا","ميلا","جنى","تاليا","يارا","جوري","لارا","ميساء","نور","آية","رهف","عالية","ليان","حلا","سما","دانا",
+"كريم","سامي","رامي","أحمد","يوسف","عمر","سعيد","خالد","زياد","مهند","أيمن","طارق","هاني","أنس","مالك","رائد",
+"هدى","سلمى","ليلى","جميلة","غادة","صفاء","دينا","ملاك","لينا","روان","نورهان","رانيا","تالا","هالة","بسمة",
+"محمد","خالد","عمر","سامي","أنس","يوسف","رامي","سليم","مالك","رائد","زياد","طارق","وسيم","نبيل","حاتم",
+"نور","ليان","رنا","جود","آية","شهد","جوري","ميلا","رهف","لارا","جنى","تاليا","ياسمين","تالا","فرح",
+"عمر","سامي","زيد","أحمد","كريم","هشام","معتز","سيف","مالك","رامي","بدر","حاتم","محمد","خالد","يوسف","أنس",
+"ليلى","مريم","نور","سارة","رنا","هدى","جنى","آية","ياسمين","فرح","مي","رولا","ليان","لارا","تالا","بسمة",
+"سلمى","نورهان","جود","رهف","هالة","ميلا","دينا","سما","تاليا","جوري","روان","رنا","هديل","ملاك","بسملة",
+"يوسف","عمر","خالد","زياد","رامي","مالك","أنس","سامي","سليم","جواد","وسيم","نبيل","طارق","هاني","أحمد"
+];
+
+const usersDiv = document.getElementById("users");
+names.forEach(name=>{
+    const d=document.createElement("div");
+    d.className="user";
+    d.innerHTML=`<span>${name}</span><span><span class="online">● نشط الآن</span> <span class="icon">${name.length%2===0?"👤":"👤"}</span></span>`;
+    d.onclick = ()=>{
+        // فتح صفحة chat.html باسم المستخدم
+        window.location.href = `chat.html?name=${encodeURIComponent(name)}`;
+    };
+    usersDiv.appendChild(d);
+});
 </script>
 
 </body>
